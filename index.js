@@ -1,5 +1,5 @@
 let SERVER_NAME = 'patients-api'
-let PORT = 9000;
+let PORT = process.env.PORT || 9000;
 //let HOST = '99.248.27.62';
 let HOST = '127.0.0.1';
 
