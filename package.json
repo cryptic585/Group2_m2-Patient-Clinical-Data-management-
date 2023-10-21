@@ -1,0 +1,18 @@
+{
+    "name": "PatientsApi",
+    "version": "1.3.0",
+    "description": "REST API - Patient Clinical Data Management Application - MongoDb",
+    "main": "index.js",
+    "engines": {
+        "node": ">=4.1.1",
+        "npm": ">=2.1.x"
+    },
+    "authors": [
+        "Group 2"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "mongoose": "^7.3.1",
+        "restify": "^11.1.0"
+    }
+}
