@@ -79,7 +79,7 @@ let restify = require('restify')
   console.log(' PATCH - /patients/:id')  
 })*/
 
-  server.listen(HOST, function () {
+  server.listen(PORT, function () {
   console.log('Server %s listening at %s', server.name, server.url)
   console.log('**** Resources: ****')
   console.log('********************')
