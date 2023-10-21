@@ -14,9 +14,6 @@
     "dependencies": {
         "mongoose": "^7.3.1",
         "restify": "^11.1.0"
-    },
-    "scripts": {
-  "start": "node your-app.js"
-}
+    }
     
 }
