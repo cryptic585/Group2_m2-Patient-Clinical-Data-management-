@@ -1,7 +1,7 @@
 let SERVER_NAME = 'patients-api'
 let PORT = process.env.PORT || 9000;
 //let HOST = '99.248.27.62';
-let HOST = '127.0.0.1';
+//let HOST = '127.0.0.1';
 
 const mongoose = require ("mongoose");
 const username = "vbhatt75";
@@ -66,7 +66,20 @@ let restify = require('restify')
   // Create the restify server
   , server = restify.createServer({ name: SERVER_NAME})
 
-  server.listen(PORT, HOST, function () {
+  /*server.listen(PORT, HOST, function () {
+  console.log('Server %s listening at %s', server.name, server.url)
+  console.log('**** Resources: ****')
+  console.log('********************')
+  console.log(' POST - /patients')
+  console.log(' GET - /patients')
+  console.log(' GET - /patients/:id')  
+  console.log(' DELETE - /patients/:id')  
+  console.log(' POST - /patients/:id/tests')  
+  console.log(' GET - /patients/:id/tests')  
+  console.log(' PATCH - /patients/:id')  
+})*/
+
+  server.listen(HOST, function () {
   console.log('Server %s listening at %s', server.name, server.url)
   console.log('**** Resources: ****')
   console.log('********************')
