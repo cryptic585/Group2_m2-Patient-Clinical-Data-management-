@@ -46,7 +46,7 @@ const testSchema = new mongoose.Schema({
 
 const patientSchema = new mongoose.Schema({
   first_name: String, 
-	last_name: String,
+  last_name: String,
   address: String,
   date_of_birth: String,
   department: String,
@@ -100,7 +100,8 @@ server.get('/patients', function (req, res, next) {
   console.log('GET /patients params=>' + JSON.stringify(req.params));
 
   // Find every entity in db
-  PatientsModel.find({}, '-tests')
+  //PatientsModel.find({}, '-tests')
+PatientsModel.find({}, '-tests')
     .then((patients)=>{
         // Return all of the patients in the system
     
@@ -112,12 +113,15 @@ server.get('/patients', function (req, res, next) {
     });
 })
 
+
+
 // Get a single patient by their patient id
 server.get('/patients/:id', function (req, res, next) {
   console.log('GET /patients/:id params=>' + JSON.stringify(req.params));
 
   // Find a single patient by their id in db
-  PatientsModel.findOne({ _id: req.params.id }, '-tests')
+  //PatientsModel.findOne({ _id: req.params.id }, '-tests')
+PatientsModel.findOne({ _id: req.params.id })
     .then((patients)=>{
       console.log("found patient: " + patients);
       if (patients) {
