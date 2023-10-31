@@ -341,6 +341,41 @@ server.get('/patients/:id/tests', function (req, res, next) {
 })
 
 
+// Delete a specific test for a patient
+server.del('/patients/:patientId/tests/:testId', function (req, res, next) {
+  console.log('DELETE /patients/:patientId/tests/:testId params=>' + JSON.stringify(req.params));
+
+  // Create a query to identify the test to be removed
+  const query = {
+    _id: req.params.patientId,
+    'tests._id': req.params.testId,
+  };
+
+  PatientsModel.findOne(query)
+    .then((patient) => {
+      if (!patient) {
+        // If the patient or test does not exist, send a 404 response
+        res.send(404, 'Patient or test not found');
+        return next();
+      }
+
+      // Use $pull to remove the specific test from the "tests" array
+      patient.tests.pull({ _id: req.params.testId });
+
+      // Save the updated patient document
+      return patient.save();
+    })
+    .then((updatedPatient) => {
+      res.send(204); // Send a "No Content" response indicating successful deletion
+      return next();
+    })
+    .catch((error) => {
+      console.log('error: ' + error);
+      return next(new Error(JSON.stringify(error.errors)));
+    });
+});
+
+
 /*
 
 {"first_name": "John2", "last_name":"Musk2", "address":"Yonge Street2", "date_of_birth": "13/10/1985", "department": "Emergency2" , "doctor": "Peter Doe2"}
