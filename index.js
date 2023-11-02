@@ -341,6 +341,63 @@ server.get('/patients/:id/tests', function (req, res, next) {
 })
 
 
+
+// Update a specific test record for a patient
+server.patch('/patients/:patientId/tests/:testId', function (req, res, next) {
+  console.log('PATCH /patients/:patientId/tests/:testId params=>' + JSON.stringify(req.params));
+  console.log('PATCH /patients/:patientId/tests/:testId body=>' + JSON.stringify(req.body));
+
+  // Define the fields to update
+  const updateFields = {};
+
+  // Validate and update fields if provided
+  if (req.body.date) {
+    updateFields['tests.$[elem].date'] = req.body.date;
+  }
+  if (req.body.nurse_name) {
+    updateFields['tests.$[elem].nurse_name'] = req.body.nurse_name;
+  }
+  if (req.body.type) {
+    updateFields['tests.$[elem].type'] = req.body.type;
+  }
+  if (req.body.category) {
+    updateFields['tests.$[elem].category'] = req.body.category;
+  }
+  if (req.body.readings) {
+    if (req.body.readings.diastolic) {
+      updateFields['tests.$[elem].readings.diastolic'] = req.body.readings.diastolic;
+    }
+    if (req.body.readings.systolic) {
+      updateFields['tests.$[elem].readings.systolic'] = req.body.readings.systolic;
+    }
+  }
+
+  const filter = { 'elem._id': req.params.testId };
+
+  PatientsModel.findOneAndUpdate(
+    { _id: req.params.patientId, 'tests._id': req.params.testId },
+    { $set: updateFields },
+    {
+      arrayFilters: [filter],
+      new: true,
+    }
+  )
+    .then((updatedPatient) => {
+      if (updatedPatient) {
+        res.json(updatedPatient);
+      } else {
+        res.status(404).send('Patient or test not found');
+      }
+      return next();
+    })
+    .catch((error) => {
+      console.log('error: ' + error);
+      return next(new Error(JSON.stringify(error.errors)));
+    });
+});
+
+
+
 // Delete a specific test for a patient
 server.del('/patients/:patientId/tests/:testId', function (req, res, next) {
   console.log('DELETE /patients/:patientId/tests/:testId params=>' + JSON.stringify(req.params));
