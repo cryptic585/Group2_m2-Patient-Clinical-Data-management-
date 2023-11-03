@@ -396,7 +396,30 @@ server.patch('/patients/:patientId/tests/:testId', function (req, res, next) {
     });
 });
 
+// Get a specific test record for a patient
+server.get('/patients/:patientId/tests/:testId', function (req, res, next) {
+  const patientId = req.params.patientId;
+  const testId = req.params.testId;
 
+  PatientsModel.findOne({ _id: patientId })
+    .then((patient) => {
+      if (!patient) {
+        return res.status(404).send('Patient not found');
+      }
+
+      const test = patient.tests.find((test) => test._id.toString() === testId);
+
+      if (test) {
+        res.json(test);
+      } else {
+        res.status(404).send('Test not found');
+      }
+    })
+    .catch((err) => {
+      console.error('Error finding test:', err);
+      res.status(500).send('Internal server error');
+    });
+});
 
 // Delete a specific test for a patient
 server.del('/patients/:patientId/tests/:testId', function (req, res, next) {
